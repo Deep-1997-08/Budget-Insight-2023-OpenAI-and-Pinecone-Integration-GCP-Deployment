@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Insight 2023</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Budget Insight 2023</h1>
+        
+        <div class="query">
+            <h2>Query Vector Store</h2>
+            <form id="queryForm">
+                <input type="text" id="queryInput" name="query" placeholder="Enter your query">
+                <button type="submit">Query</button>
+            </form>
+            <div id="queryResult"></div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('queryForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const queryInput = document.getElementById('queryInput').value;
+            const formData = new FormData();
+            formData.append('query', queryInput);
+
+            const response = await fetch('/query', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.text();
+            document.getElementById('queryResult').innerText = result;
+        });
+    </script>
+</body>
+</html>
